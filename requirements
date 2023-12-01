@@ -1,0 +1,11 @@
+numpy
+pandas
+tkinter
+nibabel
+xnat
+zipfile
+datetime
+time
+itertools
+dbdicom
+shutil
