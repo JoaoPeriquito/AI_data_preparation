@@ -9,3 +9,5 @@ time
 itertools
 dbdicom
 shutil
+sklearn
+pyvista
