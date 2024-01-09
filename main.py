@@ -13,7 +13,6 @@ if __name__ == '__main__':
 
     save_path = select_folder_to_save.main() #Select save folder
 
-    
     username, password = XNAT_cred.main() #XNAT Credentials
 
     series = [ #select series using standardize names

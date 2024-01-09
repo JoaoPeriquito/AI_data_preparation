@@ -23,6 +23,7 @@ def main(username, password, save_path, list_of_patient_ids, chosen_series):
         for serie in chosen_series:
             try:
                 series_temp = folder.series(SeriesDescription=serie)
+                print(series_temp[0]['SeriesDescription'])
                 if series_temp:
                     array_temp, _ = series_temp[0].array(['SliceLocation', 'AcquisitionTime'], pixels_first=True)
                     array_temp = np.squeeze(array_temp)
@@ -32,7 +33,8 @@ def main(username, password, save_path, list_of_patient_ids, chosen_series):
 
         try:        
             stacked_array = np.stack(array_list, axis=3)
-            nifti_image = nib.Nifti1Image(stacked_array, affine=np.eye(4))
+            stacked_array = np.transpose(stacked_array, (1,0,2,3))
+            nifti_image = nib.Nifti1Image(stacked_array, affine=series_temp[0].affine()[0])
             nib.save(nifti_image, os.path.join(save_path, ID +'.nii.gz'))
         except:
             print('Data was NOT saved!')

@@ -8,6 +8,32 @@ import time
 
 from itertools import chain
 
+def GE_rename(series):
+
+    SeqName = series["SeriesDescription"]
+    print(SeqName)
+
+    if 'dixon_cor_bh' in SeqName and 'post_contrast' not in SeqName:
+        sequence = 'T1w_abdomen_dixon_cor_bh'
+        if 'OutPhase' in SeqName: 
+            return sequence + '_out_phase'
+        if 'InPhase' in SeqName: 
+            return sequence + '_in_phase'
+        if 'FAT' in SeqName: 
+            return sequence + '_fat'
+        if 'WATER' in SeqName: 
+            return sequence + '_water'
+    elif 'dixon_cor_bh' in SeqName and 'post_contrast' in SeqName:
+        sequence = 'T1w_abdomen_dixon_cor_bh'
+        if 'OutPhase' in SeqName: 
+            return sequence + '_out_phase_post_contrast'
+        if 'InPhase' in SeqName: 
+            return sequence + '_in_phase_post_contrast'
+        if 'FAT' in SeqName: 
+            return sequence + '_fat_post_contrast'
+        if 'WATER' in SeqName: 
+            return sequence + '_water_post_contrast'
+
 def Philips_rename(series):
         
     SeqName = series["SeriesDescription"]
@@ -302,11 +328,15 @@ def main(folder):
             elif imDescription == 'ASL_kidneys_pCASL_cor-oblique_fb' and ASL_count == 4:
                 series.SeriesDescription = imDescription + '_label0_moco'
                 ASL_count = 0
+        elif Manufacturer == 'GE MEDICAL SYSTEMS':
+            
+            imDescription = GE_rename(series)
+            series.SeriesDescription = imDescription
+
         else:
             imDescription = Philips_rename(series)
             series.SeriesDescription = imDescription
 
-        
         print(imDescription)
 
     folder.save()
