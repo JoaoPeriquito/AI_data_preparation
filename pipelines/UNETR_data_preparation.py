@@ -34,6 +34,7 @@ def main(username, password, save_path, list_of_patient_ids, chosen_series):
         try:        
             stacked_array = np.stack(array_list, axis=3)
             stacked_array = np.transpose(stacked_array, (1,0,2,3))
+            np.save(os.path.join(save_path, ID),stacked_array) #save in numpy file
             nifti_image = nib.Nifti1Image(stacked_array, affine=series_temp[0].affine()[0])
             nib.save(nifti_image, os.path.join(save_path, ID +'.nii.gz'))
         except:
